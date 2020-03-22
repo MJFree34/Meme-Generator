@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A1D0AC82428133500C663FD /* impact.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A1D0AC72428133500C663FD /* impact.ttf */; };
 		9A2E451B2426709A005091C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2E451A2426709A005091C0 /* AppDelegate.swift */; };
 		9A2E451D2426709A005091C0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2E451C2426709A005091C0 /* SceneDelegate.swift */; };
 		9A2E451F2426709A005091C0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2E451E2426709A005091C0 /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A1D0AC72428133500C663FD /* impact.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = impact.ttf; sourceTree = "<group>"; };
 		9A2E45172426709A005091C0 /* Meme Maker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Meme Maker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A2E451A2426709A005091C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9A2E451C2426709A005091C0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 				9A2E451C2426709A005091C0 /* SceneDelegate.swift */,
 				9A2E451E2426709A005091C0 /* ViewController.swift */,
 				9A2E45202426709A005091C0 /* Main.storyboard */,
+				9A1D0AC72428133500C663FD /* impact.ttf */,
 				9A2E45232426709D005091C0 /* Assets.xcassets */,
 				9A2E45252426709D005091C0 /* LaunchScreen.storyboard */,
 				9A2E45282426709D005091C0 /* Info.plist */,
@@ -125,6 +128,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A1D0AC82428133500C663FD /* impact.ttf in Resources */,
 				9A2E45272426709D005091C0 /* LaunchScreen.storyboard in Resources */,
 				9A2E45242426709D005091C0 /* Assets.xcassets in Resources */,
 				9A2E45222426709A005091C0 /* Main.storyboard in Resources */,

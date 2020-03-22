@@ -8,11 +8,15 @@
 
 import UIKit
 
+enum TextArea {
+    case top, bottom
+}
+
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     // MARK: Properties
     var imageView: UIImageView!
-    var currentBaseImage: UIImage?
-    var memedImage: UIImage?
+    
+    var currentImage: UIImage?
     
     // MARK: UI Setup
     override func loadView() {
@@ -82,27 +86,74 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         dismiss(animated: true)
         
-        // setting imageView's image and the current base image
-        currentBaseImage = image
-        imageView.image = currentBaseImage
+        currentImage = image
+        imageView.image = currentImage
         
-        // replace old memed image if there was one with nil
-        memedImage = nil
-        
-        assert(currentBaseImage != nil, "image picker gave back nil image")
+        assert(currentImage != nil, "image picker gave back nil image")
     }
     
+    // MARK: Meming Image
     @objc func addTopText() {
+        let ac = UIAlertController(title: "Enter Top Text", message: nil, preferredStyle: .alert)
+        ac.addTextField()
         
+        let submitAction = UIAlertAction(title: "Add", style: .default) {
+            [weak self, weak ac] _ in
+            guard let text = ac?.textFields?[0].text else { return }
+            self?.addToPictureText(text.uppercased(), to: .top)
+        }
+        
+        ac.addAction(submitAction)
+        present(ac, animated: true)
     }
     
     @objc func addBottomText() {
+        let ac = UIAlertController(title: "Enter Bottom Text", message: nil, preferredStyle: .alert)
+        ac.addTextField()
         
+        let submitAction = UIAlertAction(title: "Add", style: .default) {
+            [weak self, weak ac] _ in
+            guard let text = ac?.textFields?[0].text else { return }
+            self?.addToPictureText(text.uppercased(), to: .bottom)
+        }
+        
+        ac.addAction(submitAction)
+        present(ac, animated: true)
+    }
+    
+    func addToPictureText(_ text: String, to area: TextArea) {
+        guard let image = imageView.image else { return }
+        
+        let render = UIGraphicsImageRenderer(size: CGSize(width: image.size.width, height: image.size.height))
+        
+        let newImage = render.image { (context) in
+            image.draw(at: CGPoint(x: 0, y: 0))
+            
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = .center
+            
+            let attributes: [NSAttributedString.Key: Any] = [
+                .font: UIFont.init(name: "Impact", size: 100)!,
+                .paragraphStyle: paragraphStyle,
+                .foregroundColor: UIColor.white
+            ]
+            
+            let attributedString = NSMutableAttributedString(string: text, attributes: attributes)
+            
+            if area == .top {
+                attributedString.draw(with: CGRect(x: image.size.width / 20, y: image.size.width / 20, width: image.size.width * 0.9, height: image.size.height / 3), options: .usesLineFragmentOrigin, context: nil)
+            } else {
+                attributedString.draw(with: CGRect(x: image.size.width / 20, y: image.size.width / 10 + 2 * image.size.height / 3, width: image.size.width * 0.9, height: image.size.height / 3), options: .usesLineFragmentOrigin, context: nil)
+            }
+        }
+        
+        imageView.image = newImage
+        currentImage = newImage
     }
     
     // MARK: Share Image
     @objc func shareMeme() {
-        guard let image = imageView.image else { return }
+        guard let image = currentImage else { return }
         
         guard let imageData = image.jpegData(compressionQuality: 0.8) else {
             fatalError("image was not able to be compressed")
