@@ -9,11 +9,11 @@
 import UIKit
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    // MARK: Properties
     var imageView: UIImageView!
+    var currentImage: UIImage?
     
-    var topTextButton: UIButton!
-    var bottomTextButton: UIButton!
-    
+    // MARK: UI Setup
     override func loadView() {
         // setup view
         view = UIView()
@@ -68,7 +68,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(importPicture))
     }
     
-    // MARK: - Picker Setup
+    // MARK: Picker Setup
     @objc func importPicture() {
         let picker = UIImagePickerController()
         picker.allowsEditing = true
@@ -81,7 +81,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         dismiss(animated: true)
         
-        imageView.image = image
+        currentImage = image
+        imageView.image = currentImage
+        
+        assert(currentImage != nil, "image picker gave back nil image")
     }
     
     @objc func addTopText() {
