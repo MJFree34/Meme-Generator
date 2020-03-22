@@ -64,5 +64,9 @@
 	<array>
 		<string>impact.ttf</string>
 	</array>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Need to save photos</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Need to access photos</string>
 </dict>
 </plist>
