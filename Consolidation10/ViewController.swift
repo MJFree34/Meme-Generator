@@ -11,7 +11,8 @@ import UIKit
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     // MARK: Properties
     var imageView: UIImageView!
-    var currentImage: UIImage?
+    var currentBaseImage: UIImage?
+    var memedImage: UIImage?
     
     // MARK: UI Setup
     override func loadView() {
@@ -81,10 +82,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         dismiss(animated: true)
         
-        currentImage = image
-        imageView.image = currentImage
+        // setting imageView's image and the current base image
+        currentBaseImage = image
+        imageView.image = currentBaseImage
         
-        assert(currentImage != nil, "image picker gave back nil image")
+        // replace old memed image if there was one with nil
+        memedImage = nil
+        
+        assert(currentBaseImage != nil, "image picker gave back nil image")
     }
     
     @objc func addTopText() {
@@ -95,8 +100,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
     }
     
+    // MARK: Share Image
     @objc func shareMeme() {
+        guard let image = imageView.image else { return }
         
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            fatalError("image was not able to be compressed")
+        }
+        
+        let vc = UIActivityViewController(activityItems: [imageData], applicationActivities: [])
+        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        present(vc, animated: true)
     }
 }
 
