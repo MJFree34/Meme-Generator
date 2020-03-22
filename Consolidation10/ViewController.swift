@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var imageView: UIImageView!
     
     var topTextButton: UIButton!
@@ -22,7 +22,7 @@ class ViewController: UIViewController {
         // setup imageView
         imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        
+        imageView.contentMode = .scaleAspectFit
         view.addSubview(imageView)
         
         // setup topTextButton
@@ -68,8 +68,20 @@ class ViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(importPicture))
     }
     
+    // MARK: - Picker Setup
     @objc func importPicture() {
+        let picker = UIImagePickerController()
+        picker.allowsEditing = true
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[.editedImage] as? UIImage else { return }
         
+        dismiss(animated: true)
+        
+        imageView.image = image
     }
     
     @objc func addTopText() {
