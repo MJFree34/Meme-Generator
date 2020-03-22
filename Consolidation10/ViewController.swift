@@ -18,6 +18,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     var currentImage: UIImage?
     
+    var hasTopText = false
+    var hasBottomText = false
+    
+    var imageWithTopText: UIImage?
+    var imageWithBottomText: UIImage?
+    
     // MARK: UI Setup
     override func loadView() {
         // setup view
@@ -86,8 +92,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         dismiss(animated: true)
         
+        // reseting generator
         currentImage = image
         imageView.image = currentImage
+        hasBottomText = false
+        hasTopText = false
+        imageWithTopText = nil
+        imageWithBottomText = nil
         
         assert(currentImage != nil, "image picker gave back nil image")
     }
@@ -122,7 +133,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func addToPictureText(_ text: String, to area: TextArea) {
-        guard let image = imageView.image else { return }
+        var image: UIImage
+        
+        if area == .top && hasTopText {
+            if let imageWithBottomText = imageWithBottomText {
+                image = imageWithBottomText
+            } else { return }
+        } else if area == .bottom && hasBottomText {
+            if let imageWithTopText = imageWithTopText {
+                image = imageWithTopText
+            } else { return }
+        } else {
+            if let currentImage = currentImage {
+                image = currentImage
+            } else { return }
+        }
         
         let render = UIGraphicsImageRenderer(size: CGSize(width: image.size.width, height: image.size.height))
         
@@ -149,6 +174,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         imageView.image = newImage
         currentImage = newImage
+        
+        if area == .top && hasTopText {
+            if let imageWithBottomText = imageWithBottomText {
+                image = imageWithBottomText
+            } else { return }
+        } else if area == .bottom && hasBottomText {
+            if let imageWithTopText = imageWithTopText {
+                image = imageWithTopText
+            } else { return }
+        }
     }
     
     // MARK: Share Image
